@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/masterminds/sprig"
 	"k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
@@ -48,9 +49,7 @@ func render(w http.ResponseWriter, r *http.Request, rest *rest.Config, configDir
 		Ingresses: ingresses,
 		Services:  services,
 	}
-
-	log.Debugf("PAGEDATA:>  %s", pageData)
-	log.Debugf("PAGEDATA INGRESSES:> %s", pageData.Ingresses)
+	log.Debug(spew.Sdump(pageData))
 
 	if err := tmpl.Execute(w, pageData); err != nil {
 		writeHtmlErrorResponse(w, err)

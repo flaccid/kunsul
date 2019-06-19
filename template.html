@@ -179,11 +179,27 @@
     <div>
       <table>
         <tr>
-          <th>Namespace</th><th>Name</th><th>ClusterIp</th><th>Public Endpoints</th>
+          <th>Namespace</th><th>Name</th><th>LoadBalancer</th><th>ClusterIp</th><!--<th>Public Endpoints</th><th>ExternalIPs</th><th>Annotations</th><th>Ports</th><th>Status</th>-->
         </tr>
         {{range .Services}}
+        <!--
         <tr>
-          <td>{{.Namespace}}<td>{{.Name}}</td><td>{{.Spec.ClusterIP}}</td><td>{{.Spec}}</td>
+          <td>
+            <textarea cols="100" rows="30">
+              {{. | toPrettyJson}}
+              {{ .Spec | toPrettyJson}}
+            </textarea>
+          </td>
+        </tr>
+        -->
+        <tr>
+          <td>{{.Namespace}}<td>{{.Name}}</td><td>
+
+            {{ range .Status.LoadBalancer.Ingress }}
+              <a href="http://{{.}}">{{ . }}</a>
+            {{end}}
+
+          </td><td>{{.Spec.ClusterIP}}</td><!--<td>{{.Spec.ExternalIPs}}</td><td>{{index .Annotations "field.cattle.io/publicEndpoints"}}</td><td>{{.Spec.Ports}}</td><td>{{index .Status}}</td>-->
         </tr>
         {{end}}
       </ul>
