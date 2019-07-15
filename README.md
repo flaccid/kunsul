@@ -12,6 +12,10 @@ Kubernetes global ingress UI dashboard.
 
 For example, `kunsul -D --outside`
 
+## Development
+
+Checkout the repo, then `make help`.
+
 ## License
 
 - Author: Chris Fordham (<chris@fordham.id.au>)
