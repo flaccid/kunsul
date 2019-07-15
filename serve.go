@@ -2,17 +2,17 @@ package kunsul
 
 import (
 	"fmt"
-	"k8s.io/client-go/rest"
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
+	"k8s.io/client-go/rest"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
 	code int = http.StatusTemporaryRedirect
 )
 
-func Serve(config *rest.Config, directory string, listenPort int, listings bool, accessLog bool) {
+func Serve(kubeConfig *rest.Config, configDir string, templateFile string, listenPort int, accessLog bool) {
 	log.Info("initialize kunsul")
 	log.Debug("debug logging enabled")
 
@@ -20,12 +20,13 @@ func Serve(config *rest.Config, directory string, listenPort int, listings bool,
 	http.HandleFunc("/health/", healthCheckHandler)
 
 	log.WithFields(log.Fields{
-		"dir":  directory,
+		"configDir":  configDir,
 		"port": listenPort,
+		"templateFile": templateFile,
 	}).Info("listening for requests")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		render(w, r, config)
+		render(w, r, kubeConfig, configDir, templateFile)
 	})
 
 	http.ListenAndServe(":"+fmt.Sprintf("%v", listenPort), nil)
