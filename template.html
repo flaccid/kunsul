@@ -14,24 +14,24 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 
   <h1 class="ui center aligned icon header">
-      <i class="circular cloud icon"></i>
-      Kunsul
+    <i class="circular cloud icon"></i>
+    Kunsul
   </h1>
 
   <div class="ui container">
-    <h2>Ingress</h2>
+    <h2>Ingresses</h2>
 
 
     <table class="ui celled table">
-        <thead>
-          <tr>
-            <th class="four wide">Namespace</th>
-            <th class="four wide">Name</th>
-            <th class="eight wide">Hosts</th>
+      <thead>
+        <tr>
+          <th class="four wide">Namespace</th>
+          <th class="four wide">Name</th>
+          <th class="eight wide">Hosts</th>
         </tr>
-        </thead>
+      </thead>
 
-    {{range .Ingresses}}
+      {{range .Ingresses}}
       {{/*<textarea cols="100" rows="30">*/}}
       {{/*{{. | toPrettyJson}}*/}}
       {{/*{{ .Spec | toPrettyJson}}*/}}
@@ -40,25 +40,25 @@
         <td>{{.Namespace}}</td>
         <td>{{.Name}}</td>
         <td>
-            {{ $protocol := .Spec.TLS | empty | ternary "http" "https" }}
-            {{ range $index, $rule := .Spec.Rules }}
-            <li>
-              <a href="{{$protocol}}://{{ $rule.Host }}" target="_blank">
-                {{$protocol}}://{{ $rule.Host }}
-              </a>
-            </li>
-            {{ end }}
+          {{ $protocol := .Spec.TLS | empty | ternary "http" "https" }}
+          {{ range $index, $rule := .Spec.Rules }}
+          <li>
+            <a href="{{$protocol}}://{{ $rule.Host }}" target="_blank">
+              {{$protocol}}://{{ $rule.Host }}
+            </a>
+          </li>
+          {{ end }}
 
-            {{ if eq (len .Spec.Rules) 0 }}
-            <div class="ui warning message">
-              <div class="header">No rules found!</div>
-              <span class="caption">Warning, this will match all traffic!</span>
-            </div>
-            {{ end }}
+          {{ if eq (len .Spec.Rules) 0 }}
+          <div class="ui warning message">
+            <div class="header">No rules found!</div>
+            <span class="caption">Warning, this will match all traffic!</span>
+          </div>
+          {{ end }}
 
         </td>
       </tr>
-    {{end}}
+      {{end}}
     </table>
     <div class="ui divider"></div>
 
@@ -67,14 +67,14 @@
     <div>
       <table class="ui celled table">
         <thead>
-        <tr>
-          <th>Namespace</th>
-          <th>Name</th>
-          <th>Load Balancer</th>
-          <th>Cluster IP</th>
-          <!--<th>Public Endpoints</th><th>ExternalIPs</th><th>Annotations</th><th>Ports</th><th>Status</th>-->
-        </tr>
-      </thead>
+          <tr>
+            <th>Namespace</th>
+            <th>Name</th>
+            <th>Load Balancer</th>
+            <th>Cluster IP</th>
+            <!--<th>Public Endpoints</th><th>ExternalIPs</th><th>Annotations</th><th>Ports</th><th>Status</th>-->
+          </tr>
+        </thead>
         {{range .Services}}
         <!--
         <tr>
@@ -87,16 +87,20 @@
         </tr>
         -->
         <tr>
-          <td>{{.Namespace}}<td>{{.Name}}</td><td>
+          <td>{{.Namespace}}
+          <td>{{.Name}}</td>
+          <td>
 
             {{ range .Status.LoadBalancer.Ingress }}
-              <a href="http://{{.IP}}">{{ .IP }}</a>
+            <a href="http://{{.IP}}">{{ .IP }}</a>
             {{end}}
 
-          </td><td>{{.Spec.ClusterIP}}</td><!--<td>{{.Spec.ExternalIPs}}</td><td>{{index .Annotations "field.cattle.io/publicEndpoints"}}</td><td>{{.Spec.Ports}}</td><td>{{index .Status}}</td>-->
+          </td>
+          <td>{{.Spec.ClusterIP}}</td>
+          <!--<td>{{.Spec.ExternalIPs}}</td><td>{{index .Annotations "field.cattle.io/publicEndpoints"}}</td><td>{{.Spec.Ports}}</td><td>{{index .Status}}</td>-->
         </tr>
         {{end}}
-      </ul>
+        </ul>
     </div>
 
     <div class="clear-float"></div>
