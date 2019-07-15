@@ -26,6 +26,17 @@ Upgrade the chart:
 
 `helm upgrade kunsul charts/kunsul`
 
+Upgrade chart with some custom values:
+
+```
+helm upgrade kunsul charts/kunsul \
+  --recreate-pods \
+  --set ingress.annotations."kubernetes\.io/ingress\.class"=nginx-internal \
+  --set ingress.annotations."kubernetes\.io/ssl-redirect"=\"false\" \
+  --set ingress.hosts[0]=kunsul.dev.my.cloud \
+  --set image.pullPolicy=Always
+```
+
 Testing after deployment:
 
 `helm test kunsul`
