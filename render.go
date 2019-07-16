@@ -1,29 +1,30 @@
 package kunsul
 
 import (
-	"path/filepath"
 	"html/template"
 	"net/http"
+	"path/filepath"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/masterminds/sprig"
+	log "github.com/sirupsen/logrus"
 	"k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
 	"k8s.io/client-go/rest"
-	log "github.com/sirupsen/logrus"
 )
 
 type PageData struct {
-	Title     string
-	Ingresses []v1beta1.Ingress
-	Services  []v1.Service
+	Title         string
+	Ingresses     []v1beta1.Ingress
+	IngressLabels []string
+	Services      []v1.Service
 }
 
 var (
 	tmpl *template.Template
 )
 
-func render(w http.ResponseWriter, r *http.Request, rest *rest.Config, configDir string, templateFile string) {
+func render(w http.ResponseWriter, r *http.Request, rest *rest.Config, configDir string, templateFile string, ingressLabels []string) {
 	var ingresses []v1beta1.Ingress
 	var services []v1.Service
 
@@ -46,8 +47,9 @@ func render(w http.ResponseWriter, r *http.Request, rest *rest.Config, configDir
 	log.Debug(tmpl.DefinedTemplates())
 
 	pageData := PageData{
-		Ingresses: ingresses,
-		Services:  services,
+		Ingresses:     ingresses,
+		IngressLabels: ingressLabels,
+		Services:      services,
 	}
 	log.Debug(spew.Sdump(pageData))
 

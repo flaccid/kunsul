@@ -47,6 +47,10 @@ func main() {
 			Usage: "configuration directory",
 			Value: "/etc/kunsul",
 		},
+		cli.StringSliceFlag{
+			Name:  "ingress-label,il",
+			Usage: "ingress labels to show if found",
+		},
 		cli.StringFlag{
 			Name:  "template,t",
 			Usage: "html template file",
@@ -89,7 +93,8 @@ func start(c *cli.Context) error {
 		c.String("config-dir"),
 		c.String("template"),
 		c.Int("port"),
-		c.Bool("access-log"))
+		c.Bool("access-log"),
+		c.StringSlice("ingress-label"))
 
 	return nil
 }

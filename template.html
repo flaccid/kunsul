@@ -21,7 +21,6 @@
   <div class="ui container">
     <h2>Ingresses</h2>
 
-
     <table class="ui celled table">
       <thead>
         <tr>
@@ -30,6 +29,8 @@
           <th class="eight wide">Hosts</th>
         </tr>
       </thead>
+
+      {{ $ingressLabels := .IngressLabels }}
 
       {{range .Ingresses}}
       {{/*<textarea cols="100" rows="30">*/}}
@@ -40,14 +41,29 @@
         <td>{{.Namespace}}</td>
         <td>{{.Name}}</td>
         <td>
-          {{ $protocol := .Spec.TLS | empty | ternary "http" "https" }}
-          {{ range $index, $rule := .Spec.Rules }}
-          <li>
-            <a href="{{$protocol}}://{{ $rule.Host }}" target="_blank">
-              {{$protocol}}://{{ $rule.Host }}
+          <ul>
+            {{ $protocol := .Spec.TLS | empty | ternary "http" "https" }}
+            {{ range $index, $rule := .Spec.Rules }}
+            <li>
+              <a href="{{$protocol}}://{{ $rule.Host }}" target="_blank">
+                {{$protocol}}://{{ $rule.Host }}
+              </a>
+            </li>
+            {{ end }}
+          </ul>
+
+          <!-- ingress labels -->
+          <div class="ui">
+            {{range $k, $v := .Labels}}
+            {{range $label := $ingressLabels}}
+            {{if eq $k $label}}
+            <a class="item">
+              <div style="margin-bottom:2px" class="ui horizontal label">{{$k}}:{{$v}}</div>
             </a>
-          </li>
-          {{ end }}
+            {{end}}
+            {{end}}
+            {{end}}
+          </div>
 
           {{ if eq (len .Spec.Rules) 0 }}
           <div class="ui warning message">
@@ -60,6 +76,7 @@
       </tr>
       {{end}}
     </table>
+
     <div class="ui divider"></div>
 
     <h2>Services</h2>
