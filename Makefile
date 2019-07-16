@@ -51,6 +51,12 @@ helm-upgrade:: ## upgrades deployed helm release
 helm-purge:: ## deletes and purges deployed helm release
 		@helm delete --purge kunsul
 
+helm-render:: ## prints out the rendered chart
+		@helm install --dry-run --debug charts/kunsul
+
+helm-validate:: ## runs a lint on the helm chart
+		@helm lint charts/kunsul
+
 # a help target including self-documenting targets (see the awk statement)
 define HELP_TEXT
 Usage: make [TARGET]... [MAKEVAR1=SOMETHING]...
