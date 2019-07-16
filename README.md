@@ -1,5 +1,7 @@
 # kunsul
 
+[![CircleCI](https://circleci.com/gh/flaccid/kunsul/tree/master.svg?style=svg)](https://circleci.com/gh/flaccid/kunsul/tree/master)
+
 Kubernetes global ingress UI dashboard.
 
 ## Installation
