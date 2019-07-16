@@ -36,7 +36,8 @@ helm upgrade kunsul charts/kunsul \
   --set ingress.annotations."kubernetes\.io/ingress\.class"=nginx-internal \
   --set ingress.annotations."kubernetes\.io/ssl-redirect"=\"false\" \
   --set ingress.hosts[0]=kunsul.dev.my.cloud \
-  --set image.pullPolicy=Always
+  --set image.pullPolicy=Always \
+  --set image.args[0]='--ingress-label=helm.sh/chart'
 ```
 
 Testing after deployment:

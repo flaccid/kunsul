@@ -4,6 +4,7 @@ image:
   repository: flaccid/kunsul
   tag: latest
   pullPolicy: IfNotPresent
+  args: []
 
 nameOverride: ""
 fullnameOverride: ""
