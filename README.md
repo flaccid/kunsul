@@ -54,10 +54,6 @@ For example, this runs a pod against the current kube context.
 `make docker-build`
 `make kube-test`
 
-## Development
-
-Checkout the repo, then `make help`.
-
 ## License
 
 - Author: Chris Fordham (<chris@fordham.id.au>)
